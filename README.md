@@ -132,10 +132,6 @@ python run_fiddle.py --test_data ./data/embl_mcf_2.0.mgf \
 
 ## TODO
 
-- [ ] Update `run_fiddle.py` making it being able to run all methods together. 
-- [ ] Upload checkpoints to release
-- [ ] Submit paper and put paper on Arxiv
-- [ ] Release source code
 - [ ] Write PyPI package
 - [ ] Write online platform
 
