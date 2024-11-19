@@ -100,14 +100,14 @@ python prepare_fdr.py \
 --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
 --fdr_dir ./data/cl_pkl_0927/ \
 --device 4 5 
-python train_fdr.py \
+nohup python train_fdr.py \
 --train_data ./data/cl_pkl_0927/orbitrap_maxmin_fdr_train.pkl \
 --test_data ./data/cl_pkl_0927/orbitrap_maxmin_fdr_test.pkl \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
 --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
 --transfer \
 --checkpoint_path ./check_point/fiddle_fdr_orbitrap_092724.pt \
---device 4 5 
+--device 4 5 > fiddle_fdr_orbitrap_092724.out
 
 
 

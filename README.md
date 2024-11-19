@@ -32,7 +32,7 @@ To use the pre-trained models, download the weights from the [release page]():
 
 ## Usage
 
-The input format is `mgf`, where `title`, `precursor_mz`, `precursor_type`, `collision_energy` fields are required. Here is an example from EMBL-MCF 2.0 dataset. 
+The input format is `mgf`, where `title`, `precursor_mz`, `precursor_type`, `collision_energy` fields are required. Here, we sampled 100 spectra from the EMBL-MCF 2.0 dataset as an example.
 
 ```mgf
 BEGIN IONS
@@ -62,7 +62,19 @@ python run_fiddle.py --test_data ./demo/input_msms.mgf \
                     --config_path ./config/fiddle_tcn_orbitrap.yml \
                     --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
                     --fdr_resume_path ./check_point/fiddle_fdr_orbitrap_092724.pt \
-                    --result_path ./demo/output.csv --device 4 5
+                    --result_path ./demo/fiddle_output.csv --device 0
+```
+
+If you'd like to integrate the results from SIRIUS and BUDDY, please organize the results in the format shown in `./demo/buddy_output.csv` and `./demo/sirius_output.csv`, and provide them to run FIDDLE:
+
+```bash
+python run_fiddle.py --test_data ./demo/input_msms.mgf \
+                    --config_path ./config/fiddle_tcn_orbitrap.yml \
+                    --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
+                    --fdr_resume_path ./check_point/fiddle_fdr_orbitrap_092724.pt \
+                    --buddy_path ./demo/buddy_output.csv \
+                    --sirius_path ./demo/sirius_output.csv \
+                    --result_path ./demo/all_output.csv --device 0
 ```
 
 ## Testing on external public datasets
@@ -120,12 +132,12 @@ python run_fiddle.py --test_data ./data/embl_mcf_2.0.mgf \
 
 ## TODO
 
-- [] Update `run_fiddle.py` making it being able to run all methods together. 
-- [] Upload checkpoints to release
-- [] Submit paper and put paper on Arxiv
-- [] Release source code
-- [] Write PyPI package
-- [] Write online platform
+- [ ] Update `run_fiddle.py` making it being able to run all methods together. 
+- [ ] Upload checkpoints to release
+- [ ] Submit paper and put paper on Arxiv
+- [ ] Release source code
+- [ ] Write PyPI package
+- [ ] Write online platform
 
 ## License
 
@@ -137,3 +149,5 @@ This work is licensed under a
 [cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+
+

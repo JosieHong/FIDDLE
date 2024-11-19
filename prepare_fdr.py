@@ -16,7 +16,7 @@ import pandas as pd
 
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, SubsetRandomSampler
 
 from dataset import MS2FDataset
 from model_tcn import MS2FNet_tcn
@@ -152,18 +152,33 @@ if __name__ == "__main__":
 		
 		# 2. Data
 		dataset = MS2FDataset(data_path)
-		loader = DataLoader(dataset,
-							batch_size=config['train']['batch_size'], 
-							shuffle=True, 
-							num_workers=config['train']['num_workers'], 
-							drop_last=True)
+
+		# If the dataset is larger than 10000, randomly sampling
+		if len(dataset) > 10000: 
+			print('Sample 10000 samples for FDR prediction')
+			indices = np.arange(len(dataset))
+			np.random.shuffle(indices)
+			sample_indices = indices[:10000]
+			
+			sampler = SubsetRandomSampler(sample_indices) # Create a SubsetRandomSampler
+			loader = DataLoader(dataset,
+								batch_size=config['train']['batch_size'],
+								sampler=sampler,  # Use the sampler instead of shuffle
+								num_workers=config['train']['num_workers'],
+								drop_last=True)
+		else:
+			loader = DataLoader(dataset,
+								batch_size=config['train']['batch_size'], 
+								shuffle=True, 
+								num_workers=config['train']['num_workers'], 
+								drop_last=True)
 
 		# 3. Prediction
 		spec_ids, y_true, y_pred, mae, mass_true, mass_pred, mass_mae = eval_step(model, loader, device_1st)
 		
 		# calculate the formula string, which will be used in postprocessing
 		formula_pred = [vec2formula(y) for y in y_pred] 
-		formula_true = [vec2formula(y) for y in y_true]
+		formula_true = [vec2formula(y) for y in y_true] 
 
 		# 4. Post-processing
 		formula_redined = {'Refined Formula ({})'.format(str(k)): [] for k in range(config['post_processing']['top_k'])}

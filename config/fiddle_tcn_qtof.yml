@@ -174,7 +174,7 @@ train:
   noised_times: 3
   
 train_fdr:
-  epochs: 10
+  epochs: 100
   batch_size: 128
   num_workers: 8
   lr: 0.0001
