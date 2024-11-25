@@ -25,23 +25,20 @@ python prepare_msms_all.py \
 --maxmin_pick
 
 # 3. CASMI 2016, 2017, 2022 ----------------
-# (TODO: remove 2022 later)
 python casmi2mgf.py --data_config_path ./config/fiddle_tcn_casmi.yml
-# for BUDDY and SIRIUS Orbitrap
+# for BUDDY and SIRIUS QTOF
 python mgf_instances.py --input_path ./data/casmi2016.mgf \
                         --output_dir ./data_instances/casmi2016_pre/ \
                         --log ./data_instances/casmi2016_log.csv
 python mgf_instances.py --input_path ./data/casmi2017.mgf \
                         --output_dir ./data_instances/casmi2017_pre/ \
                         --log ./data_instances/casmi2017_log.csv
-python mgf_instances.py --input_path ./data/casmi2022.mgf \
-                        --output_dir ./data_instances/casmi2022_pre/ \
-                        --log ./data_instances/casmi2022_log.csv
 
 # 4. EMBL MCF 2.0 -------------------------
 python embl2mgf.py --raw_path ./data/origin/MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf \
                 --mgf_path ./data/embl_mcf_2.0.mgf \
                 --data_config_path ./config/fiddle_tcn_embl.yml
+# for BUDDY and SIRIUS Orbitrap
 python mgf_instances.py --input_path ./data/embl_mcf_2.0.mgf \
                         --output_dir ./data_instances/embl_pre/ \
                         --log ./data_instances/embl_log.csv
@@ -69,14 +66,14 @@ python prepare_fdr.py \
 --resume_path ./check_point/fiddle_tcn_qtof_092724.pt \
 --fdr_dir ./data/cl_pkl_0927/ \
 --device 4 5
-nohup python train_fdr.py \
+python train_fdr.py \
 --train_data ./data/cl_pkl_0927/qtof_maxmin_fdr_train.pkl \
 --test_data ./data/cl_pkl_0927/qtof_maxmin_fdr_test.pkl \
 --config_path ./config/fiddle_tcn_qtof.yml \
 --resume_path ./check_point/fiddle_tcn_qtof_092724.pt \
 --transfer \
 --checkpoint_path ./check_point/fiddle_fdr_qtof_092724.pt \
---device 4 5 > fiddle_fdr_qtof_092724.out
+--device 4 5 
 
 
 
@@ -84,13 +81,13 @@ nohup python train_fdr.py \
 # III. Train on Qrbitrap
 # --------------------------
 # FIDDLE
-nohup python -u train_tcn_gpus_cl.py \
+python -u train_tcn_gpus_cl.py \
 --train_data ./data/cl_pkl_0927/orbitrap_maxmin_train.pkl \
 --test_data ./data/cl_pkl_0927/orbitrap_maxmin_test.pkl \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
 --checkpoint_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
 --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
---device 4 5 >> fiddle_tcn_orbitrap_092724.out 
+--device 4 5 
 
 # FIDDLES (fdr model)
 python prepare_fdr.py \
@@ -100,14 +97,14 @@ python prepare_fdr.py \
 --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
 --fdr_dir ./data/cl_pkl_0927/ \
 --device 4 5 
-nohup python train_fdr.py \
+python train_fdr.py \
 --train_data ./data/cl_pkl_0927/orbitrap_maxmin_fdr_train.pkl \
 --test_data ./data/cl_pkl_0927/orbitrap_maxmin_fdr_test.pkl \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
 --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
 --transfer \
 --checkpoint_path ./check_point/fiddle_fdr_orbitrap_092724.pt \
---device 4 5 > fiddle_fdr_orbitrap_092724.out
+--device 4 5
 
 
 

@@ -4,10 +4,6 @@
 start_indices=(0 10000 20000 30000 40000)
 end_indices=(9999 19999 29999 39999 41463)
 
-# # TODO: correct the index ranges
-# start_indices=(2500 10000 20000 30000 40000)
-# end_indices=(9999 19999 29999 39999 41463)
-
 # Loop through the start and end indices to run the jobs in parallel
 for i in ${!start_indices[@]}; do
     start_index=${start_indices[$i]}

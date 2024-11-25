@@ -35,13 +35,13 @@ python mgf_instances.py --input_path ./data/cl_pkl_1007/orbitrap_test.mgf \
 # --------------------------
 
 # FIDDLE
-nohup python -u train_tcn_gpus_cl.py \
+python -u train_tcn_gpus_cl.py \
 --train_data ./data/cl_pkl_1007/qtof_train.pkl \
 --test_data ./data/cl_pkl_1007/qtof_test.pkl \
 --additional_f_data ./data/additional_formula.pkl \
 --config_path ./config/fiddle_tcn_qtof.yml \
 --checkpoint_path ./check_point/fiddle_tcn_qtof_100724.pt \
---result_path ./result/fiddle_tcn_qtof_100724.csv --device 4 5 > fiddle_tcn_qtof_100724.out
+--result_path ./result/fiddle_tcn_qtof_100724.csv --device 4 5 
 
 # FIDDLES (fdr model)
 python prepare_fdr.py \
@@ -51,14 +51,14 @@ python prepare_fdr.py \
 --resume_path ./check_point/fiddle_tcn_qtof_100724.pt \
 --fdr_dir ./data/cl_pkl_1007/ \
 --device 4 5
-nohup python train_fdr.py \
+python train_fdr.py \
 --train_data ./data/cl_pkl_1007/qtof_fdr_train.pkl \
 --test_data ./data/cl_pkl_1007/qtof_fdr_test.pkl \
 --config_path ./config/fiddle_tcn_qtof.yml \
 --resume_path ./check_point/fiddle_tcn_qtof_100724.pt \
 --transfer \
 --checkpoint_path ./check_point/fiddle_fdr_qtof_100724.pt \
---device 4 5 > fiddle_fdr_qtof_100724.out
+--device 4 5 
 
 
 
@@ -66,29 +66,29 @@ nohup python train_fdr.py \
 # III. Train on Qrbitrap
 # --------------------------
 # FIDDLE
-nohup python -u train_tcn_gpus_cl.py \
+python -u train_tcn_gpus_cl.py \
 --train_data ./data/cl_pkl_1007/orbitrap_train.pkl \
 --test_data ./data/cl_pkl_1007/orbitrap_test.pkl \
 --additional_f_data ./data/additional_formula.pkl \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
 --checkpoint_path ./check_point/fiddle_tcn_orbitrap_100724.pt \
---result_path ./result/fiddle_tcn_orbitrap_100724.csv --device 6 7 > fiddle_tcn_orbitrap_100724.out
+--result_path ./result/fiddle_tcn_orbitrap_100724.csv --device 4 7 
 
 # FIDDLES (fdr model)
-nohup python prepare_fdr.py \
+python prepare_fdr.py \
 --train_data ./data/cl_pkl_1007/orbitrap_train.pkl \
 --test_data ./data/cl_pkl_1007/orbitrap_test.pkl \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
 --resume_path ./check_point/fiddle_tcn_orbitrap_100724.pt \
 --fdr_dir ./data/cl_pkl_1007/ \
 --device 4 5 
-nohup python train_fdr.py --train_data ./data/cl_pkl_1007/orbitrap_fdr_train.pkl \
+python train_fdr.py --train_data ./data/cl_pkl_1007/orbitrap_fdr_train.pkl \
 --test_data ./data/cl_pkl_1007/orbitrap_fdr_test.pkl \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
 --resume_path ./check_point/fiddle_tcn_orbitrap_100724.pt \
 --transfer \
 --checkpoint_path ./check_point/fiddle_fdr_orbitrap_100724.pt \
---device 4 5 > fiddle_fdr_orbitrap_100724.out
+--device 4 5 
 
 
 
@@ -96,18 +96,18 @@ nohup python train_fdr.py --train_data ./data/cl_pkl_1007/orbitrap_fdr_train.pkl
 # IV. Test on QTOF
 # --------------------------
 # BUDDY
-nohup python run_buddy.py --instrument_type qtof --top_k 5 \
+python run_buddy.py --instrument_type qtof --top_k 5 \
 --input_dir ./data_instances/qtof_pre_1007/ \
---result_path ./run_buddy_1007/buddy_qtof_test_1007.csv > buddy_qtof_1007.out
+--result_path ./run_buddy_1007/buddy_qtof_test_1007.csv 
 
 # SIRIUS
-nohup python -u run_sirius.py --instrument_type qtof \
+python -u run_sirius.py --instrument_type qtof \
 --input_dir ./data_instances/qtof_pre_1007/ \
 --output_dir ./run_sirius_1007/qtof_sirius_output/ \
 --summary_dir ./run_sirius_1007/qtof_sirius_summary/ \
 --output_log_dir ./run_sirius_1007/qtof_sirius_log/ \
 --input_log ./data_instances/qtof_log_1007.csv \
---output_log ./run_sirius_1007/sirius_qtof_test.csv > sirius_qtof_1007.out
+--output_log ./run_sirius_1007/sirius_qtof_test.csv 
 # run SIRIUS in multiple processes
 # bash run_sirius_qtof_mp.sh
 
@@ -119,7 +119,7 @@ python run_fiddle.py --test_data ./data/cl_pkl_1007/qtof_test.mgf \
 --result_path ./result/fiddle_qtof_100724.csv --device 5
 
 # FIDDLE + BUDDY
-nohup python run_fiddle.py --test_data ./data/cl_pkl_1007/qtof_test.mgf \
+python run_fiddle.py --test_data ./data/cl_pkl_1007/qtof_test.mgf \
 --config_path ./config/fiddle_tcn_qtof.yml \
 --resume_path ./check_point/fiddle_tcn_qtof_100724.pt \
 --fdr_resume_path ./check_point/fiddle_fdr_qtof_100724.pt \
@@ -141,30 +141,30 @@ nohup python run_fiddle.py --test_data ./data/cl_pkl_1007/qtof_test.mgf \
 # V. Test on Orbitrap
 # --------------------------
 # BUDDY
-nohup python run_buddy.py --instrument_type orbitrap --top_k 5 \
+python run_buddy.py --instrument_type orbitrap --top_k 5 \
 --input_dir ./data_instances/orbitrap_pre_1007/ \
---result_path ./run_buddy_1007/buddy_orbitrap_test_1007.csv > buddy_orbitrap_1007.out
+--result_path ./run_buddy_1007/buddy_orbitrap_test_1007.csv 
 
 # SIRIUS
-nohup python -u run_sirius.py --instrument_type orbitrap \
+python -u run_sirius.py --instrument_type orbitrap \
 --input_dir ./data_instances/orbitrap_pre_1007/ \
 --output_dir ./run_sirius_1007/orbitrap_sirius_output/ \
 --summary_dir ./run_sirius_1007/orbitrap_sirius_summary/ \
 --output_log_dir ./run_sirius_1007/orbitrap_sirius_log/ \
 --input_log ./data_instances/orbitrap_log_1007.csv \
---output_log ./run_sirius_1007/sirius_orbitrap_test_1007.csv > sirius_orbitrap_1007.out
+--output_log ./run_sirius_1007/sirius_orbitrap_test_1007.csv 
 # run SIRIUS in multiple processes
 # bash run_sirius_orbitrap_mp.sh
 
 # FIDDLES
-nohup python run_fiddle.py --test_data ./data/cl_pkl_1007/orbitrap_test.mgf \
+python run_fiddle.py --test_data ./data/cl_pkl_1007/orbitrap_test.mgf \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
 --resume_path ./check_point/fiddle_tcn_orbitrap_100724.pt \
 --fdr_resume_path ./check_point/fiddle_fdr_orbitrap_100724.pt \
---result_path ./result/fiddle_orbitrap_100724.csv --device 6
+--result_path ./result/fiddle_orbitrap_100724.csv --device 4
 
 # FIDDLE + BUDDY
-nohup python run_fiddle.py --test_data ./data/cl_pkl_1007/orbitrap_test.mgf \
+python run_fiddle.py --test_data ./data/cl_pkl_1007/orbitrap_test.mgf \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
 --resume_path ./check_point/fiddle_tcn_orbitrap_100724.pt \
 --fdr_resume_path ./check_point/fiddle_fdr_orbitrap_100724.pt \
