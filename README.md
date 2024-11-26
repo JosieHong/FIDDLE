@@ -4,7 +4,7 @@
 
 **F**ormula **ID**entification from tandem mass spectra by **D**eep **LE**arning
 
-Here is the source code for all the experiments, including training, evaluation, and testing of FIDDLE, BUDDY, and SIRIUS. The PyPI package for FIDDLE is coming soon. 
+Here is the source code for all the experiments, including the training of FIDDLE, as well as the evaluation and testing of FIDDLE, BUDDY, and SIRIUS. A PyPI package and a website-based service for FIDDLE will be available soon.
 
 ## Set up
 
@@ -13,6 +13,7 @@ Here is the source code for all the experiments, including training, evaluation,
 1. Install [Anaconda](https://docs.anaconda.com/anaconda/install/), if not already installed.
 
 2. Create the environment with the necessary packages:
+
 ```bash
 conda env create -f environment.yml
 ```
@@ -21,7 +22,7 @@ conda env create -f environment.yml
 
 ### Pre-trained Model Weights
 
-To use the pre-trained models, download the weights from the [release page]():
+To use the pre-trained models, download the weights from the [release page](https://github.com/JosieHong/FIDDLE/releases/tag/v1.0.0):
 
 - **Orbitrap models**:
   - `fiddle_tcn_orbitrap.pt`: formula prediction model on Orbitrap spectra
@@ -60,8 +61,8 @@ END IONS
 ```bash
 python run_fiddle.py --test_data ./demo/input_msms.mgf \
                     --config_path ./config/fiddle_tcn_orbitrap.yml \
-                    --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
-                    --fdr_resume_path ./check_point/fiddle_fdr_orbitrap_092724.pt \
+                    --resume_path ./check_point/fiddle_tcn_orbitrap.pt \
+                    --fdr_resume_path ./check_point/fiddle_fdr_orbitrap.pt \
                     --result_path ./demo/fiddle_output.csv --device 0
 ```
 
@@ -70,8 +71,8 @@ If you'd like to integrate the results from SIRIUS and BUDDY, please organize th
 ```bash
 python run_fiddle.py --test_data ./demo/input_msms.mgf \
                     --config_path ./config/fiddle_tcn_orbitrap.yml \
-                    --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
-                    --fdr_resume_path ./check_point/fiddle_fdr_orbitrap_092724.pt \
+                    --resume_path ./check_point/fiddle_tcn_orbitrap.pt \
+                    --fdr_resume_path ./check_point/fiddle_fdr_orbitrap.pt \
                     --buddy_path ./demo/buddy_output.csv \
                     --sirius_path ./demo/sirius_output.csv \
                     --result_path ./demo/all_output.csv --device 0
@@ -132,8 +133,12 @@ python run_fiddle.py --test_data ./data/embl_mcf_2.0.mgf \
 
 ## TODO
 
-- [ ] Write PyPI package
-- [ ] Write online platform
+- [ ] PyPI package
+- [ ] Online platform
+
+## Citation
+
+TBA
 
 ## License
 
