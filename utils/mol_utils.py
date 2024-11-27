@@ -2,7 +2,6 @@ import re
 import numpy as np
 
 from rdkit.Chem.rdMolDescriptors import CalcMolFormula
-# from molmass import Formula
 
 # monoisotopic mass
 ATOMS_WEIGHT = {
@@ -65,18 +64,6 @@ ATOMS_INDEX_re = {
 	11: 'Na',
 	12: 'K'
 }
-
-# def monoisotopic_mass_calculator(mol, mode):
-# 	assert mode in ['mol', 'f'], 'Invalid mode: {}'.format(mode) 
-	
-# 	try: 
-# 		if mode == 'mol':
-# 			f = CalcMolFormula(mol)
-# 		f = Formula(f)
-# 		iso_mass = f.isotope.mass
-# 	except: # can not calculate monoisotopic mass
-# 		iso_mass = None
-# 	return iso_mass
 
 def monoisotopic_mass_calculator(x, mode):
 	assert mode in ['mol', 'f'], 'Invalid mode: {}'.format(mode) 

@@ -4,7 +4,7 @@
 
 **F**ormula **ID**entification from tandem mass spectra by **D**eep **LE**arning
 
-Here is the source code for all the experiments, including the training of FIDDLE, as well as the evaluation and testing of FIDDLE, BUDDY, and SIRIUS. A PyPI package and a website-based service for FIDDLE will be available soon.
+The source code for the training and evaluation of FIDDLE, as well as for the inference of FIDDLE using results from SIRIUS and BUDDY, is provided (see detailed commands in `./running_scripts/`). A PyPI package and a website-based service for FIDDLE will be available soon. 
 
 ## Set up
 
@@ -78,68 +78,6 @@ python run_fiddle.py --test_data ./demo/input_msms.mgf \
                     --result_path ./demo/all_output.csv --device 0
 ```
 
-## Testing on external public datasets
-
-1. Download CASMI 2016 and EMBL from the [[MassBank of North America website]](https://mona.fiehnlab.ucdavis.edu/downloads) and CASMI 2017 from the [[CASMI website]](http://www.casmi-contest.org/2017/index.shtml). The data directory is structured as follows:
-
-```bash
-|- data
-  |- casmi
-    |- casmi2016
-      |- MoNA-export-CASMI_2016.sdf
-    |- casmi2017
-      |- CASMI-solutions.csv
-      |- Chal1to45Summary.csv
-      |- challenges-001-045-msms-mgf-20170908 (unzip challenges-001-045-msms-mgf-20170908.zip)
-    |- embl
-      |- MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf
-```
-
-2. Prepare CASMI 2016, CASMI 2017, and EMBL-MCF 2.0 datasets:
-
-```bash
-python casmi2mgf.py --raw_dir ./data/casmi/ \
-                --mgf_dir ./data/ \
-                --data_config_path ./config/fiddle_tcn_casmi.yml
-
-python embl2mgf.py --raw_path ./data/origin/MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf \
-                --mgf_path ./data/embl_mcf_2.0.mgf \
-                --data_config_path ./config/fiddle_tcn_embl.yml
-```
-
-3. Test FIDDLE on all testsets: 
-
-```bash
-python run_fiddle.py --test_data ./data/casmi2016.mgf \
-                --config_path ./config/fiddle_tcn_casmi.yml \
-                --resume_path ./check_point/fiddle_tcn_qtof_092724.pt \
-                --fdr_resume_path ./check_point/fiddle_fdr_qtof_092724.pt \
-                --result_path ./result/fiddle_casmi16.csv 
-
-python run_fiddle.py --test_data ./data/casmi2017.mgf \
-                --config_path ./config/fiddle_tcn_casmi.yml \
-                --resume_path ./check_point/fiddle_tcn_qtof_092724.pt \
-                --fdr_resume_path ./check_point/fiddle_fdr_qtof_092724.pt \
-                --result_path ./result/fiddle_casmi17.csv 
-
-python run_fiddle.py --test_data ./data/embl_mcf_2.0.mgf \
-                --config_path ./config/fiddle_tcn_embl.yml \
-                --resume_path ./check_point/fiddle_tcn_orbitrap_092724.pt \
-                --fdr_resume_path ./check_point/fiddle_fdr_orbitrap_092724.pt \
-                --result_path ./result/fiddle_embl.csv 
-```
-
-4. The more detailed experiments commands are in `./experiments_ex_test.sh`. 
-
-## TODO
-
-- [ ] PyPI package
-- [ ] Online platform
-
-## Citation
-
-TBA
-
 ## License
 
 This work is licensed under a
@@ -150,5 +88,4 @@ This work is licensed under a
 [cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
 [cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
-
 

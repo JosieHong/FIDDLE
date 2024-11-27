@@ -28,7 +28,7 @@ def cal_ppm(theo_mass, precursor_type, real_mz):
 
 if __name__ == "__main__": 
 	parser = argparse.ArgumentParser(description='Preprocess the Data')
-	parser.add_argument('--raw_dir', type=str, default='./data/casmi/',
+	parser.add_argument('--raw_dir', type=str, default='./data/benchmark/',
 						help='path to raw data')
 	parser.add_argument('--mgf_dir', type=str, default='./data/',
 						help='path to mgf data')

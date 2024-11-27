@@ -297,8 +297,6 @@ if __name__ == "__main__":
 		formula_wo_acc = sum([1 for f1, f2 in zip(formula_wo_true, formula_wo_pred) if f1 == f2]) / len(formula_wo_pred)
 		print("formula w/o acc: {:.4f}".format(formula_wo_acc))
 
-		# if valid_mae < best_valid_mae: 
-		# 	best_valid_mae = valid_mae
 		if best_formula_acc < formula_acc or valid_mae < best_valid_mae or best_formula_wo_acc < formula_wo_acc: 
 			best_formula_acc = formula_acc
 			best_valid_mae = valid_mae

@@ -241,30 +241,30 @@ if __name__ == "__main__":
 		exp_mass.append(m.item())
 
 		f0_list = [pred_f]
-		if args.buddy_path != '' and len(buddy_df.loc[buddy_df['identifier'] == idx]) > 0: 
-			buddy_f = buddy_df.loc[buddy_df['identifier'] == idx].iloc[0][['formula_rank_1', 
-																			'formula_rank_2', 
-																			'formula_rank_3',
-																			'formula_rank_4', 
-																			'formula_rank_5']].tolist()
-			buddy_fdr = buddy_df.loc[buddy_df['identifier'] == idx].iloc[0][['estimated_fdr_1', 
-																			'estimated_fdr_2', 
-																			'estimated_fdr_3',
-																			'estimated_fdr_4', 
-																			'estimated_fdr_5']].tolist()
+		if args.buddy_path != '' and len(buddy_df.loc[buddy_df['ID'] == idx]) > 0: 
+			buddy_f = buddy_df.loc[buddy_df['ID'] == idx].iloc[0][['Pred Formula (1)', 
+																			'Pred Formula (2)', 
+																			'Pred Formula (3)',
+																			'Pred Formula (4)', 
+																			'Pred Formula (5)',]].tolist()
+			buddy_fdr = buddy_df.loc[buddy_df['ID'] == idx].iloc[0][['BUDDY Score (1)', 
+																			'BUDDY Score (2)', 
+																			'BUDDY Score (3)',
+																			'BUDDY Score (4)', 
+																			'BUDDY Score (5)',]].tolist()
 			buddy_f = [x for x, fdr in zip(buddy_f, buddy_fdr) if str(x) != 'nan' and fdr < config['post_processing']['buddy_fdr_thr']]
 			f0_list.extend(buddy_f)
 		if args.sirius_path != '': 
-			sirius_f = sirius_df.loc[sirius_df['Title'] == idx].iloc[0][['PredFormula_1', 
-																			'PredFormula_2', 
-																			'PredFormula_3',
-																			'PredFormula_4', 
-																			'PredFormula_5',]].tolist()
-			sirius_score = sirius_df.loc[sirius_df['Title'] == idx].iloc[0][['SiriusScore_1', 
-																			'SiriusScore_2', 
-																			'SiriusScore_3',
-																			'SiriusScore_4', 
-																			'SiriusScore_5',]].tolist()
+			sirius_f = sirius_df.loc[sirius_df['ID'] == idx].iloc[0][['Pred Formula (1)', 
+																			'Pred Formula (2)', 
+																			'Pred Formula (3)',
+																			'Pred Formula (4)', 
+																			'Pred Formula (5)',]].tolist()
+			sirius_score = sirius_df.loc[sirius_df['ID'] == idx].iloc[0][['SIRIUS Score (1)', 
+																			'SIRIUS Score (2)', 
+																			'SIRIUS Score (3)',
+																			'SIRIUS Score (4)', 
+																			'SIRIUS Score (5)',]].tolist()
 			sirius_f = [x for x, score in zip(sirius_f, sirius_score) if str(x) != 'nan' and score > config['post_processing']['sirius_score_thr']]
 			f0_list.extend(sirius_f)
 
@@ -297,6 +297,6 @@ if __name__ == "__main__":
 				'Pred Atom Num': atomnum_pred.tolist(), 'Pred H/C Num': hcnum_pred.tolist(), 
 				'Running Time': running_time}
 	res_df = pd.DataFrame({**out_dict, **formula_redined, **mass_redined, **fdr_refined})
-	res_df.to_csv(args.result_path)
+	res_df.to_csv(args.result_path, index=False)
 	print('Done!')
 	

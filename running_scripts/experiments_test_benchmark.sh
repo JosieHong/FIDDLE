@@ -5,9 +5,21 @@
 # ----------------------------------------
 # I. Data preprocessing
 # ----------------------------------------
+# the structure of the benchmark dataset folder (`./data/benchmark`) should be:
+# |- data
+#   |- benchmark
+#     |- casmi2016
+#       |- MoNA-export-CASMI_2016.sdf
+#     |- casmi2017
+#       |- CASMI-solutions.csv
+#       |- Chal1to45Summary.csv
+#       |- challenges-001-045-msms-mgf-20170908 (unzip challenges-001-045-msms-mgf-20170908.zip)
+#     |- embl
+#       |- MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf
+# ----------------------------------------
 
 # 1. QTOF --------------------------------
-python prepare_msms_all.py \
+python prepare_msms.py \
 --dataset agilent nist20 nist23 mona waters gnps \
 --instrument_type qtof \
 --config_path ./config/fiddle_tcn_qtof.yml \
@@ -16,7 +28,7 @@ python prepare_msms_all.py \
 --maxmin_pick
 
 # 2. Orbitrap -----------------------------
-python prepare_msms_all.py \
+python prepare_msms.py \
 --dataset nist20 nist23 mona gnps \
 --instrument_type orbitrap \
 --config_path ./config/fiddle_tcn_orbitrap.yml \
@@ -24,24 +36,13 @@ python prepare_msms_all.py \
 --test_title_list ./data/orbitrap_test_title_list_0927.txt \
 --maxmin_pick
 
-# 3. CASMI 2016, 2017, 2022 ----------------
+# 3. CASMI 2016, 2017 ---------------------
 python casmi2mgf.py --data_config_path ./config/fiddle_tcn_casmi.yml
-# for BUDDY and SIRIUS QTOF
-python mgf_instances.py --input_path ./data/casmi2016.mgf \
-                        --output_dir ./data_instances/casmi2016_pre/ \
-                        --log ./data_instances/casmi2016_log.csv
-python mgf_instances.py --input_path ./data/casmi2017.mgf \
-                        --output_dir ./data_instances/casmi2017_pre/ \
-                        --log ./data_instances/casmi2017_log.csv
 
 # 4. EMBL MCF 2.0 -------------------------
 python embl2mgf.py --raw_path ./data/origin/MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf \
                 --mgf_path ./data/embl_mcf_2.0.mgf \
                 --data_config_path ./config/fiddle_tcn_embl.yml
-# for BUDDY and SIRIUS Orbitrap
-python mgf_instances.py --input_path ./data/embl_mcf_2.0.mgf \
-                        --output_dir ./data_instances/embl_pre/ \
-                        --log ./data_instances/embl_log.csv
 
 
 
@@ -124,39 +125,6 @@ python run_fiddle.py --test_data ./data/casmi2017.mgf \
                 --fdr_resume_path ./check_point/fiddle_fdr_qtof_092724.pt \
                 --result_path ./result/fiddle_casmi17.csv 
 
-# SIRIUS: 5.8.6 (2024-01-27)
-# installation: 
-# wget https://github.com/boecker-lab/sirius/releases/download/v5.8.6/sirius-5.8.6-linux64.zip
-# unzip
-# add bin into path
-python run_sirius.py --instrument_type qtof --input_dir ./data_instances/casmi2016_pre/ \
-                        --output_dir ./run_sirius/casmi2016_sirius_output/ \
-                        --summary_dir ./run_sirius/casmi2016_sirius_summary/ \
-                        --input_log ./data_instances/casmi2016_log.csv \
-                        --output_log_dir ./run_sirius/casmi2016_sirius_log/ \
-                        --output_log ./run_sirius/sirius_casmi2016.csv
-
-python run_sirius.py --instrument_type qtof --input_dir ./data_instances/casmi2017_pre/ \
-                        --output_dir ./run_sirius/casmi2017_sirius_output/ \
-                        --summary_dir ./run_sirius/casmi2017_sirius_summary/ \
-                        --input_log ./data_instances/casmi2017_log.csv \
-                        --output_log_dir ./run_sirius/casmi2017_sirius_log/ \
-                        --output_log ./run_sirius/sirius_casmi2017.csv
-
-# BUDDY: 0.3.0
-# installation: 
-# conda create -n buddy python=3.9
-# conda activate buddy
-# pip install msbuddy
-# conda activate buddy
-python run_buddy.py --input_dir ./data_instances/casmi2016_pre/ \
-                    --instrument_type qtof --top_k 10 \
-                    --result_path ./run_buddy/buddy_casmi2016.csv 
-
-python run_buddy.py --input_dir ./data_instances/casmi2017_pre/ \
-                    --instrument_type qtof --top_k 10 \
-                    --result_path ./run_buddy/buddy_casmi2017.csv 
-
 # FIDDLE + BUDDY
 python run_fiddle.py --test_data ./data/casmi2016.mgf \
                     --config_path ./config/fiddle_tcn_qtof.yml \
@@ -183,18 +151,6 @@ python run_fiddle.py --test_data ./data/embl_mcf_2.0.mgf \
                 --resume_path ./check_point/fiddle_tcn_qtof_092724.pt \
                 --fdr_resume_path ./check_point/fiddle_fdr_qtof_092724.pt \
                 --result_path ./result/fiddle_embl.csv 
-# BUDDY
-python run_buddy.py --input_dir ./data_instances/embl_pre/ \
-                    --instrument_type qtof --top_k 5 \
-                    --result_path ./run_buddy/buddy_embl.csv 
-
-# SIURUS
-python run_sirius.py --instrument_type qtof --input_dir ./data_instances/embl_pre/ \
-                        --output_dir ./run_sirius/embl_sirius_output/ \
-                        --summary_dir ./run_sirius/embl_sirius_summary/ \
-                        --input_log ./data_instances/embl_log.csv \
-                        --output_log_dir ./run_sirius/embl_sirius_log/ \
-                        --output_log ./run_sirius/sirius_embl.csv
 
 # FIDDLE + BUDDY
 python run_fiddle.py --test_data ./data/embl_mcf_2.0.mgf \

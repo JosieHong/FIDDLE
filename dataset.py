@@ -11,25 +11,7 @@ from copy import deepcopy
 import torch
 from torch.utils.data import Dataset
 
-from utils import ATOMS_INDEX, generate_ms, parse_collision_energy, unify_precursor_type, formula_to_dict, dict_to_formula, formula_to_vector
-
-# import matplotlib.pyplot as plt
-# import numpy as np
-
-
-
-class AddFDataset(Dataset):
-	def __init__(self, path): 
-		with open(path, 'rb') as file: 
-			self.data = pickle.load(file)
-		
-		print('Load {} additional formulas from {}'.format(len(self.data), path))
-		
-	def __len__(self): 
-		return len(self.data)
-
-	def __getitem__(self, idx): 
-		return self.data[idx]['formula'], self.data[idx]['mass'], self.data[idx]['label']
+from utils import ATOMS_INDEX, generate_ms, parse_collision_energy, unify_precursor_type, formula_to_dict, formula_to_vector
 
 
 
@@ -39,13 +21,6 @@ class MS2FDataset_CL(Dataset):  # for MLP and TCN
 		with open(path, 'rb') as file: 
 			self.data = pickle.load(file)
 			print(f'Loaded {len(self.data)} data items from {path}')
-
-		# # Plot the intensity distribution of the dataset
-		# self.plot_intensity_distribution()
-
-		# # Plot the peak number distribution of the dataset
-		# self.plot_peak_number_distribution()
-		# exit()
 		
 		with open(path.replace('_train.pkl', '_train_pairs.pkl'), 'rb') as file:
 			self.pairs = pickle.load(file)
@@ -59,39 +34,6 @@ class MS2FDataset_CL(Dataset):  # for MLP and TCN
 		if noised_times:
 			self.data, self.pairs, self.length = self.augment_with_noise(self.data, self.pairs, noised_times)
 			print(f'Data augmented with noise ~N(0, 0.1) {noised_times} times')
-	
-	# plotting for debug
-	def plot_intensity_distribution(self):
-		all_intensities = []
-		for data_item in self.data:
-			intensities = data_item['spec'][:, 0]  # assuming intensities are in the first column
-			all_intensities.extend(intensities[intensities > 0])  # filter out zeros
-
-		plt.figure(figsize=(10, 6))
-		plt.hist(all_intensities, bins=100, color='b', alpha=0.7)
-		plt.title('Intensity Distribution')
-		plt.xlabel('Intensity')
-		plt.ylabel('Frequency')
-		plt.yscale('log')
-		plt.savefig('intensity_distribution.png')
-		plt.close()
-		print('Intensity distribution plotted')
-
-	def plot_peak_number_distribution(self):
-		peak_counts = []
-		for data_item in self.data:
-			intensities = data_item['spec'][:, 0]  # assuming intensities are in the first column
-			num_peaks = np.sum(intensities > 0)  # count non-zero intensities as peaks
-			peak_counts.append(num_peaks)
-		
-		plt.figure(figsize=(10, 6))
-		plt.hist(peak_counts, bins=50, color='g', alpha=0.7)
-		plt.title('Peak Number Distribution')
-		plt.xlabel('Number of Peaks')
-		plt.ylabel('Frequency')
-		plt.savefig('peak_number_distribution.png')
-		plt.close()
-		print('Peak number distribution plotted')
 
 	def padding_for_pooling(self, padding_dim): 
 		for data_item in self.data: 
@@ -126,10 +68,6 @@ class MS2FDataset_CL(Dataset):  # for MLP and TCN
 		return self.length
 
 	def __getitem__(self, idx): 
-		# assert idx < self.length, f'Index {idx} out of range {self.length}'
-		# assert self.pairs['idx1'][idx] < len(self.data), f'Index {self.pairs["idx1"][idx]} out of range {len(self.data)}'
-		# assert self.pairs['idx2'][idx] < len(self.data), f'Index {self.pairs["idx2"][idx]} out of range {len(self.data)}'
-		
 		# print('group_idx', idx, 'idx1', self.pairs['idx1'][idx], 'idx2', self.pairs['idx2'][idx])
 		data_item1 = self.data[self.pairs['idx1'][idx]]
 		data_item2 = self.data[self.pairs['idx2'][idx]]

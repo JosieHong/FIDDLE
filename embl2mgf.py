@@ -114,7 +114,7 @@ def generate_mgf_block(data, type2charge):
 
 if __name__ == "__main__": 
 	parser = argparse.ArgumentParser(description='Preprocess the Data')
-	parser.add_argument('--raw_path', type=str, default='./data/origin/MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf',
+	parser.add_argument('--raw_path', type=str, default='./data/benchmark/embl/MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf',
 						help='path to raw data')
 	parser.add_argument('--mgf_path', type=str, default='./data/embl_mcf_2.0.mgf',
 						help='path to mgf data')

@@ -1,9 +1,3 @@
-"""
-Dataset for formula prediction (remove some functions to ./utils/ later)
-- Positive and negative pairs for training
-- Spectra in pkl format for both training and test set
-"""
-
 import os
 import re
 import argparse

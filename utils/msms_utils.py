@@ -8,7 +8,6 @@ from rdkit import RDLogger
 RDLogger.DisableLog('rdApp.*')
 from rdkit.Chem import AllChem
 from rdkit.Chem.rdMolDescriptors import CalcMolFormula
-# from molmass import Formula
 
 from .mol_utils import ATOMS_WEIGHT, monoisotopic_mass_calculator
 

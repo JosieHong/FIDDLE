@@ -6,6 +6,7 @@ python prepare_msms_all.py --dataset mona --instrument_type qtof --config_path .
 # --------------------------
 # Train & Predict on DEMO
 # --------------------------
+# without contrastive learning
 python -u train_tcn_gpus.py \
 --train_data ./data/demo_cl_pkl/qtof_random_train.pkl \
 --test_data ./data/demo_cl_pkl/qtof_random_test.pkl \
@@ -13,6 +14,7 @@ python -u train_tcn_gpus.py \
 --checkpoint_path ./check_point/fiddle_tcn_demo_qtof.pt \
 --result_path ./result/fiddle_tcn_demo_qtof.csv --device 6 7 
 
+# without data augmentation
 python -u train_tcn_gpus_cl.py \
 --train_data ./data/demo_cl_pkl/qtof_random_train.pkl \
 --test_data ./data/demo_cl_pkl/qtof_random_test.pkl \
@@ -20,6 +22,7 @@ python -u train_tcn_gpus_cl.py \
 --checkpoint_path ./check_point/fiddle_tcn_demo_qtof_cl_wo_da.pt \
 --result_path ./result/fiddle_tcn_demo_qtof_cl_wo_da.csv --device 6 7 
 
+# with contrastive learning and data augmentation
 python -u train_tcn_gpus_cl.py \
 --train_data ./data/demo_cl_pkl/qtof_random_train.pkl \
 --test_data ./data/demo_cl_pkl/qtof_random_test.pkl \

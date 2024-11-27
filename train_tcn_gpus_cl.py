@@ -262,7 +262,6 @@ if __name__ == "__main__":
 	# define the hyperparameters
 	optimizer = optim.AdamW(model.parameters(), lr=config['train']['lr'], weight_decay=config['train']['weight_decay'])
 	plateau_scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=config['train']['patience'])
-	# cosine_scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=50)
 	
 	# load the checkpoints 
 	if args.resume_path != '': # start from a checkpoint
@@ -326,12 +325,6 @@ if __name__ == "__main__":
 		formula_wo_acc = sum([1 for f1, f2 in zip(formula_wo_true, formula_wo_pred) if f1 == f2]) / len(formula_wo_pred)
 		print("formula w/o acc: {:.4f}".format(formula_wo_acc))
 
-		# experiments_in_test (training on the data except NIST23, testing on NIST23)
-		# if valid_mae < best_valid_mae: 
-		# 	best_valid_mae = valid_mae
-		# 	best_formula_acc = formula_acc
-		# 	best_formula_wo_acc = formula_wo_acc
-		
 		# experiments_ex_test (training on 90% of the data, validation on the rest 10%, testing on the external test sets)
 		if best_formula_acc < formula_acc or valid_mae < best_valid_mae or best_formula_wo_acc < formula_wo_acc: 
 			best_formula_acc = formula_acc

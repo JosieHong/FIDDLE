@@ -9,7 +9,7 @@ from torch.nn.utils import weight_norm
 
 
 # ---------------------------------------------
-# generation module for formula prediction
+# formula prediction
 # ---------------------------------------------
 class Chomp1d(nn.Module):
 	def __init__(self, chomp_size):

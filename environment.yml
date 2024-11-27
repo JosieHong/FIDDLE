@@ -185,7 +185,6 @@ dependencies:
       - markdown==3.5.2
       - markupsafe==2.1.5
       - matplotlib==3.8.2
-      - molmass==2023.8.30
       - oauthlib==3.2.2
       - openpyxl==3.1.2
       - packaging==23.2
