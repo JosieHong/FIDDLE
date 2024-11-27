@@ -33,7 +33,7 @@ To use the pre-trained models, download the weights from the [release page](http
 
 ## Usage
 
-The input format is `mgf`, where `title`, `precursor_mz`, `precursor_type`, `collision_energy` fields are required. Here, we sampled 100 spectra from the EMBL-MCF 2.0 dataset as an example.
+The input format is `mgf`, where `title`, `precursor_mz`, `precursor_type`, `collision_energy` fields are required. Here, we sampled 21 spectra from the EMBL-MCF 2.0 dataset as an example.
 
 ```mgf
 BEGIN IONS
@@ -63,7 +63,7 @@ python run_fiddle.py --test_data ./demo/input_msms.mgf \
                     --config_path ./config/fiddle_tcn_orbitrap.yml \
                     --resume_path ./check_point/fiddle_tcn_orbitrap.pt \
                     --fdr_resume_path ./check_point/fiddle_fdr_orbitrap.pt \
-                    --result_path ./demo/fiddle_output.csv --device 0
+                    --result_path ./demo/output_fiddle.csv --device 0
 ```
 
 If you'd like to integrate the results from SIRIUS and BUDDY, please organize the results in the format shown in `./demo/buddy_output.csv` and `./demo/sirius_output.csv`, and provide them to run FIDDLE:
@@ -73,9 +73,9 @@ python run_fiddle.py --test_data ./demo/input_msms.mgf \
                     --config_path ./config/fiddle_tcn_orbitrap.yml \
                     --resume_path ./check_point/fiddle_tcn_orbitrap.pt \
                     --fdr_resume_path ./check_point/fiddle_fdr_orbitrap.pt \
-                    --buddy_path ./demo/buddy_output.csv \
-                    --sirius_path ./demo/sirius_output.csv \
-                    --result_path ./demo/all_output.csv --device 0
+                    --buddy_path ./demo/output_buddy.csv \
+                    --sirius_path ./demo/output_sirius.csv \
+                    --result_path ./demo/output_fiddle_all.csv --device 0
 ```
 
 ## License
