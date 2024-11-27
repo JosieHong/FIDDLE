@@ -1,4 +1,4 @@
-ID,adduct,Pred Formula (1),Pred Formula (2),Pred Formula (3),Pred Formula (4),Pred Formula (5),BUDDY Score (1),BUDDY Score (2),BUDDY Score (3),BUDDY Score (4),BUDDY Score (5)
+ID,Adduct,Pred Formula (1),Pred Formula (2),Pred Formula (3),Pred Formula (4),Pred Formula (5),BUDDY Score (1),BUDDY Score (2),BUDDY Score (3),BUDDY Score (4),BUDDY Score (5)
 EMBL_MCF_2_0_HRMS_Library000021,[M+H]+,C11H5N3O2,C4H10N3O5P,C3H9N5O4S,C7HN9,,0.0772790212747481,0.5115573004709993,0.669623966048198,0.75,
 EMBL_MCF_2_0_HRMS_Library000441,[M-H]-,C8H16N2O3,,,,,0.0,,,,
 EMBL_MCF_2_0_HRMS_Library000472,[M-H]-,C4H6N4O3,,,,,0.0,,,,
