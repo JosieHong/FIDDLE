@@ -81,17 +81,13 @@ python run_fiddle.py --test_data ./demo/input_msms.mgf \
 ## Citation
 
 ```
-@article {Hong2024.11.25.625316,
-	author = {Hong, Yuhui and Li, Sujun and Ye, Yuzhen and Tang, Haixu},
-	title = {FIDDLE: a deep learning method for chemical formulas prediction from tandem mass spectra},
-	elocation-id = {2024.11.25.625316},
-	year = {2024},
-	doi = {10.1101/2024.11.25.625316},
-	publisher = {Cold Spring Harbor Laboratory},
-	abstract = {Molecular identification through tandem mass spectrometry is fundamental in metabolomics, with formula identification serving as the initial step in the process. However, current computation-based methods for formula identification face challenges, such as limited accuracy and extensive running times, with some methods unable to predict formulas for relatively large molecules. The limitations may impede high-throughput workflows and diminish overall research efficiency and success. To address these issues, we introduce FIDDLE (Formula IDentification by Deep LEarning using mass spectrometry), a novel deep learning-based method for formula identification. Our training and evaluation dataset comprises over 38,000 molecules and 1 million tandem mass spectra (MS/MS) acquired by using various Quadrupole time-of-flight (Q-TOF) and Orbitrap mass spectrometers. Comparative analyses demonstrate that FIDDLE accelerates formula identification by more than 10-fold and achieves top-1 and top-5 accuracies of 88.3\% and 93.6\%, respectively, surpassing state-of-the-art (SOTA) methods based on top-down (SIRIUS) and bottom-up (BUDDY) approaches by an average of over 10\%. On external benchmarking metabolomics datasets with novel compounds, FIDDLE significantly outperforms the SOTA methods, achieving on average the top-3 accuracy of 72.3\%. Furthermore, combining FIDDLE with existing methods such as BUDDY further improves performance, which achieves a higher top-3 accuracy of 79.0\%.Competing Interest StatementThe authors have declared no competing interest.},
-	URL = {https://www.biorxiv.org/content/early/2024/11/28/2024.11.25.625316},
-	eprint = {https://www.biorxiv.org/content/early/2024/11/28/2024.11.25.625316.full.pdf},
-	journal = {bioRxiv}
+@article{hong2024fiddle,
+  title={FIDDLE: a deep learning method for chemical formulas prediction from tandem mass spectra},
+  author={Hong, Yuhui and Li, Sujun and Ye, Yuzhen and Tang, Haixu},
+  journal={bioRxiv},
+  pages={2024--11},
+  year={2024},
+  publisher={Cold Spring Harbor Laboratory}
 }
 ```
 
