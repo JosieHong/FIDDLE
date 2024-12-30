@@ -6,6 +6,8 @@
 
 The source code for the training and evaluation of FIDDLE, as well as for the inference of FIDDLE using results from SIRIUS and BUDDY, is provided (see detailed commands in `./running_scripts/`). A PyPI package and a website-based service for FIDDLE will be available soon. 
 
+Preprint: https://www.biorxiv.org/content/10.1101/2024.11.25.625316v1
+
 ## Set up
 
 ### Requirements
@@ -22,7 +24,7 @@ conda env create -f environment.yml
 
 ### Pre-trained Model Weights
 
-To use the pre-trained models, download the weights from the [release page](https://github.com/JosieHong/FIDDLE/releases/tag/v1.0.0):
+To use the pre-trained models, please use the following scripts to download the weights from the [release page](https://github.com/JosieHong/FIDDLE/releases/tag/v1.0.0) and place them in the `./check_point/` directory:
 
 - **Orbitrap models**:
   - `fiddle_tcn_orbitrap.pt`: formula prediction model on Orbitrap spectra
@@ -30,6 +32,10 @@ To use the pre-trained models, download the weights from the [release page](http
 - **Q-TOF models**:
   - `fiddle_tcn_qtof.pt`: formula prediction model on Q-TOF spectra
   - `fiddle_fdr_qtof.pt`: confidence score prediction model on Q-TOF spectra
+
+```bash
+bash ./running_scripts/download_models.sh
+```
 
 ## Usage
 

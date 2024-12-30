@@ -82,27 +82,7 @@ model:
 # ------------------------
 # training settings
 # ------------------------
-train: 
-  epochs: 100
-  batch_size: 128
-  batch_size_ad: 256
-  num_workers: 8
-  num_workers_ad: 8
-  lr: 0.001
-  lr_ad: 0.001 
-  weight_decay: 0.01
-  weight_decay_ad: 0.01
-  warmup_ratio: 0.1
-  early_stop_step: 10
-
-  noised_times: 0
-  
-train_fdr:
-  epochs: 50
-  batch_size: 128
-  num_workers: 8
-  lr: 0.0001
-  early_stop_step: 10
+# unimplemented
 
 # ------------------------
 # postprocessing settings

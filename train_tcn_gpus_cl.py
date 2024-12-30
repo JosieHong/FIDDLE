@@ -201,6 +201,7 @@ if __name__ == "__main__":
 						help='Path to save checkpoint')
 	parser.add_argument('--resume_path', type=str, default='',
 						help='Path to pretrained model')
+	parser.add_argument('--transfer', action='store_true', default=False)
 
 	parser.add_argument('--ex_model_path', type=str, default='',
 						help='Path to export the whole model (structure & weights)')
@@ -240,7 +241,7 @@ if __name__ == "__main__":
 	valid_set = MS2FDataset(args.test_data, 
 							padding_dim=config['model']['padding_dim'])
 	valid_loader = DataLoader(valid_set,
-								batch_size=config['train']['batch_size'], 
+								batch_size=int(config['train']['batch_size']/4), 
 								shuffle=False, 
 								num_workers=config['train']['num_workers'], 
 								drop_last=True)
@@ -261,21 +262,33 @@ if __name__ == "__main__":
 	# 4. Train MS2FNet_tcn & FNet
 	# define the hyperparameters
 	optimizer = optim.AdamW(model.parameters(), lr=config['train']['lr'], weight_decay=config['train']['weight_decay'])
-	plateau_scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=config['train']['patience'])
-	
-	# load the checkpoints 
-	if args.resume_path != '': # start from a checkpoint
-		print("Load the checkpoints of the whole model")
-		epoch_start = torch.load(args.resume_path, map_location=device_1st)['epoch']
+	# scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=config['train']['patience'])
+	scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=100, gamma=0.5)
+	# scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[100, 150], gamma=0.5)
 
+	# load the checkpoints 
+	if args.resume_path != '' and not args.transfer: # start from a checkpoint
+		print("Load the checkpoints of the whole model")
 		model.load_state_dict(torch.load(args.resume_path, map_location=device_1st)['model_state_dict'])
+
 		optimizer.load_state_dict(torch.load(args.resume_path, map_location=device_1st)['optimizer_state_dict'])
-		plateau_scheduler.load_state_dict(torch.load(args.resume_path, map_location=device_1st)['scheduler_state_dict'])
-		
+		scheduler.load_state_dict(torch.load(args.resume_path, map_location=device_1st)['scheduler_state_dict'])
+
+		epoch_start = torch.load(args.resume_path, map_location=device_1st)['epoch']
 		best_valid_mae = torch.load(args.resume_path, map_location=device_1st)['best_val_mae']
 		best_formula_acc = torch.load(args.resume_path, map_location=device_1st)['best_val_acc']
 		best_formula_wo_acc = torch.load(args.resume_path, map_location=device_1st)['best_val_wo_acc']
 		warmup_steps = 0 # do not use the warm-up scheduler when resuming
+
+	elif args.resume_path != '' and args.transfer: # transfer learning
+		print("Transfer learning from the pretrained model")
+		model.load_state_dict(torch.load(args.resume_path, map_location=device_1st)['model_state_dict'])
+		
+		epoch_start = 0
+		best_valid_mae = 9999
+		best_formula_acc = 0
+		best_formula_wo_acc = 0
+		warmup_steps = int(len(train_set) / config['train']['batch_size'] * config['train']['warmup_ratio'])
 	else: 
 		epoch_start = 0
 		best_valid_mae = 9999
@@ -335,7 +348,7 @@ if __name__ == "__main__":
 				print('Saving checkpoint...')
 				checkpoint = {'epoch': epoch, 
 								'model_state_dict': model.state_dict(), 'optimizer_state_dict': optimizer.state_dict(), 
-								'scheduler_state_dict': plateau_scheduler.state_dict(), 'num_params': num_params, 
+								'scheduler_state_dict': scheduler.state_dict(), 'num_params': num_params, 
 								'best_val_mae': best_valid_mae, 'best_val_acc': best_formula_acc, 'best_val_wo_acc': best_formula_wo_acc}
 				torch.save(checkpoint, args.checkpoint_path)
 
@@ -347,8 +360,8 @@ if __name__ == "__main__":
 
 		# Update the cosine annealing scheduler after the warmup phase
 		if epoch > warmup_steps // len(train_loader): 
-			plateau_scheduler.step(valid_mae) # ReduceLROnPlateau
-			# cosine_scheduler.step()
+			# scheduler.step(valid_mae) # ReduceLROnPlateau
+			scheduler.step() # StepLR
 		print(f'Best absolute error so far: {best_valid_mae}')
 		print(f'Best formula accuracy with H so far: {best_formula_acc}')
 		print(f'Best formula accuracy without H so far: {best_formula_wo_acc}')
@@ -370,7 +383,7 @@ if __name__ == "__main__":
 	# 5. Output the prediction results
 	if args.result_path != '': 
 		print('Loading the best model...')
-		model.load_state_dict(torch.load(args.checkpoint_path, map_location=device_1st)['model_state_dict'])
+		model.load_state_dict(torch.load(args.resume_path, map_location=device_1st)['model_state_dict'])
 		spec_ids, y_true, y_pred, mae, mass_true, mass_pred, mass_mae = eval_step(model, valid_loader, device_1st)
 		valid_mae = np.mean(mae)
 		valid_mass_mae = np.mean(mass_mae)

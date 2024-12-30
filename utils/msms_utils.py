@@ -197,8 +197,8 @@ def simulate_experimental_mz(theoretical_mz, relative_mass_tolerance_ppm):
 	:return: Simulated experimental precursor m/z value.
 	"""
 	
-	# Calculate the standard deviation of the Gaussian distribution as 1/5 of the relative mass tolerance
-	std_dev = (relative_mass_tolerance_ppm / 1e6 * theoretical_mz) / 5
+	# Calculate the standard deviation of the Gaussian distribution as 1/3 of the relative mass tolerance
+	std_dev = (relative_mass_tolerance_ppm / 1e6 * theoretical_mz) / 3
 	
 	# Randomly sample a mass deviation from the Gaussian distribution
 	mass_deviation = np.random.normal(0, std_dev)

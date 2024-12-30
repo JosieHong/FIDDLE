@@ -5,7 +5,6 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 from pyteomics import mgf
-import pyopenms as pms
 
 from rdkit import Chem
 # ignore the warning

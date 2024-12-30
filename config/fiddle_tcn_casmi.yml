@@ -27,18 +27,6 @@ casmi17:
   min_atom_num: 10
   ppm_tolerance: 10
 
-casmi22: 
-  instrument_type: ['Unknown'] # Thermo Q Exactive HF
-  ms_level: 'MS2'
-  atom_type: ['C', 'O', 'N', 'H', 'P', 'S', 'F', 'Cl', 'B', 'Br', 'I', 'Na', 'K']
-  precursor_type: ['[M+H]+', '[M-H]-']
-  min_mz: 50
-  max_mz: 1500
-  min_peak_num: 5
-  max_atom_num: 300
-  min_atom_num: 10
-  ppm_tolerance: 10
-
 # ------------------------
 # model settings
 # ------------------------
@@ -106,27 +94,7 @@ model:
 # ------------------------
 # training settings
 # ------------------------
-train: 
-  epochs: 100
-  batch_size: 128
-  batch_size_ad: 256
-  num_workers: 8
-  num_workers_ad: 8
-  lr: 0.001
-  lr_ad: 0.001 
-  weight_decay: 0.01
-  weight_decay_ad: 0.01
-  warmup_ratio: 0.1
-  early_stop_step: 10
-
-  noised_times: 0
-  
-train_fdr:
-  epochs: 50
-  batch_size: 128
-  num_workers: 8
-  lr: 0.0001
-  early_stop_step: 10
+# unimplemented
 
 # ------------------------
 # postprocessing settings

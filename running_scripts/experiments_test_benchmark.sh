@@ -40,7 +40,7 @@ python prepare_msms.py \
 python casmi2mgf.py --data_config_path ./config/fiddle_tcn_casmi.yml
 
 # 4. EMBL MCF 2.0 -------------------------
-python embl2mgf.py --raw_path ./data/origin/MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf \
+python embl2mgf.py --raw_path ./data/benchmark/embl/MoNA-export-EMBL-MCF_2.0_HRMS_Library.sdf \
                 --mgf_path ./data/embl_mcf_2.0.mgf \
                 --data_config_path ./config/fiddle_tcn_embl.yml
 
