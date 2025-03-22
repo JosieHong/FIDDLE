@@ -1,7 +1,7 @@
 # --------------------------
 # Data preprocessing
 # --------------------------
-python prepare_msms_all.py --dataset mona --instrument_type qtof --config_path ./config/fiddle_tcn_demo.yml --pkl_dir ./data/demo_cl_pkl/
+python prepare_msms.py --dataset mona --instrument_type qtof --config_path ./config/fiddle_tcn_demo.yml --pkl_dir ./data/demo_cl_pkl/
 
 # --------------------------
 # Train & Predict on DEMO

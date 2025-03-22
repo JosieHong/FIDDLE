@@ -164,3 +164,4 @@ cython_debug/
 data/
 release/
 nplib_bak/
+notebook/

@@ -33,7 +33,7 @@ if __name__ == "__main__":
 	parser.add_argument('--dataset', type=str, nargs='+', required=True, choices=['agilent', 'nist20', 'nist23', 'mona', 'waters', 'gnps'],  
 						help='Dataset name')
 	parser.add_argument('--instrument_type', type=str, nargs='+', required=True, choices=['qtof', 'orbitrap'], 
-						help='Dataset name') # J0siee: remove later
+						help='Instrument type')
 	parser.add_argument('--train_ratio', type=float, default=0.9,
 						help='Ratio for train set')
 	parser.add_argument('--config_path', type=str, default='./config/fiddle.yml',
