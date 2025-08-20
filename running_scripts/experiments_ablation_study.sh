@@ -1,54 +1,150 @@
 # --------------------------
-# Data preprocessing
+# Data preprocessing for 
+# all noise times and resolution of 0.2
 # --------------------------
-python prepare_msms.py --dataset mona --instrument_type qtof --config_path ./config/fiddle_tcn_demo.yml --pkl_dir ./data/demo_cl_pkl/
+python prepare_msms_ablation.py \
+--pkl_dir ./data/ablation/ \
+--train_ratio 0.9 \
+--config_qtof_path ./config/fiddle_tcn_qtof.yml \
+--config_orbitrap_path ./config/fiddle_tcn_orbitrap.yml \
+--random_seed 42
 
-# --------------------------
-# Train & Predict on DEMO
-# --------------------------
-# without contrastive learning
-python -u train_tcn_gpus.py \
---train_data ./data/demo_cl_pkl/qtof_random_train.pkl \
---test_data ./data/demo_cl_pkl/qtof_random_test.pkl \
---config_path ./config/fiddle_tcn_demo.yml \
---checkpoint_path ./check_point/fiddle_tcn_demo_qtof.pt \
---result_path ./result/fiddle_tcn_demo_qtof.csv --device 6 7 
+# -------------------------------
+# Ablation Study of Noise Times
+# -------------------------------
+# QTOF (abn1)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_qtof_train.pkl \
+--test_data ./data/ablation/ablation_qtof_test.pkl \
+--config_path ./config/fiddle_tcn_qtof_abn1.yml \
+--checkpoint_path ./check_point/fiddle_tcn_qtof_ab_n1.pt \
+--result_path ./result/fiddle_tcn_qtof_ab_n1.csv --device 4 5 > fiddle_tcn_qtof_ab_n1.out & 
 
-# without data augmentation
+# QTOF (abn3)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_qtof_train.pkl \
+--test_data ./data/ablation/ablation_qtof_test.pkl \
+--config_path ./config/fiddle_tcn_qtof_abn3.yml \
+--checkpoint_path ./check_point/fiddle_tcn_qtof_ab_n3.pt \
+--result_path ./result/fiddle_tcn_qtof_ab_n3.csv --device 2 3 > fiddle_tcn_qtof_ab_n3.out & 
+
+# QTOF (abn5)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_qtof_train.pkl \
+--test_data ./data/ablation/ablation_qtof_test.pkl \
+--config_path ./config/fiddle_tcn_qtof_abn5.yml \
+--checkpoint_path ./check_point/fiddle_tcn_qtof_ab_n5.pt \
+--result_path ./result/fiddle_tcn_qtof_ab_n5.csv --device 2 3 > fiddle_tcn_qtof_ab_n5.out & 
+
+# Orbitrap (abn1)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_orbitrap_train.pkl \
+--test_data ./data/ablation/ablation_orbitrap_test.pkl \
+--config_path ./config/fiddle_tcn_orbitrap_abn1.yml \
+--checkpoint_path ./check_point/fiddle_tcn_orbitrap_ab_n1.pt \
+--result_path ./result/fiddle_tcn_orbitrap_ab_n1.csv --device 4 5 > fiddle_tcn_orbitrap_ab_n1.out & 
+
+# Orbitrap (abn3)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_orbitrap_train.pkl \
+--test_data ./data/ablation/ablation_orbitrap_test.pkl \
+--config_path ./config/fiddle_tcn_orbitrap_abn3.yml \
+--checkpoint_path ./check_point/fiddle_tcn_orbitrap_ab_n3.pt \
+--result_path ./result/fiddle_tcn_orbitrap_ab_n3.csv --device 0 1 > fiddle_tcn_orbitrap_ab_n3.out & 
+
+# Orbitrap (abn5)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_orbitrap_train.pkl \
+--test_data ./data/ablation/ablation_orbitrap_test.pkl \
+--config_path ./config/fiddle_tcn_orbitrap_abn5.yml \
+--checkpoint_path ./check_point/fiddle_tcn_orbitrap_ab_n5.pt \
+--result_path ./result/fiddle_tcn_orbitrap_ab_n5.csv --device 0 1 > fiddle_tcn_orbitrap_ab_n5.out & 
+
+# -------------------------------
+# Ablation Study of Resolution
+# -------------------------------
+# QTOF (resolution_1)
+python prepare_msms_ablation.py \
+--pkl_dir ./data/ablation_res_1/ \
+--train_ratio 0.9 \
+--config_qtof_path ./config/fiddle_tcn_qtof_resolution_1.yml \
+--config_orbitrap_path ./config/fiddle_tcn_orbitrap_resolution_1.yml \
+--random_seed 42
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation_res_1/ablation_qtof_train.pkl \
+--test_data ./data/ablation_res_1/ablation_qtof_test.pkl \
+--config_path ./config/fiddle_tcn_qtof_resolution_1.yml \
+--checkpoint_path ./check_point/fiddle_tcn_qtof_ab_res_1.pt \
+--result_path ./result/fiddle_tcn_qtof_ab_res_1.csv --device 4 5 > fiddle_tcn_qtof_ab_res_1.out &
+
+# QTOF (resolution_p1)
+python prepare_msms_ablation.py \
+--pkl_dir ./data/ablation_res_1/ \
+--train_ratio 0.9 \
+--config_qtof_path ./config/fiddle_tcn_qtof_resolution_p1.yml \
+--config_orbitrap_path ./config/fiddle_tcn_orbitrap_resolution_p1.yml \
+--random_seed 42
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_qtof_train.pkl \
+--test_data ./data/ablation/ablation_qtof_test.pkl \
+--config_path ./config/fiddle_tcn_qtof_resolution_p1.yml \
+--checkpoint_path ./check_point/fiddle_tcn_qtof_ab_res_p1.pt \
+--result_path ./result/fiddle_tcn_qtof_ab_res_p1.csv --device 4 5 > fiddle_tcn_qtof_ab_res_p1.out &
+
+# Orbitrap (resolution_1)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_orbitrap_train.pkl \
+--test_data ./data/ablation/ablation_orbitrap_test.pkl \
+--config_path ./config/fiddle_tcn_orbitrap_resolution_1.yml \
+--checkpoint_path ./check_point/fiddle_tcn_orbitrap_ab_res_1.pt \
+--result_path ./result/fiddle_tcn_orbitrap_ab_res_1.csv --device 4 5 > fiddle_tcn_orbitrap_ab_res_1.out &
+
+# Orbitrap (resolution_p1)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation/ablation_orbitrap_train.pkl \
+--test_data ./data/ablation/ablation_orbitrap_test.pkl \
+--config_path ./config/fiddle_tcn_orbitrap_resolution_p1.yml \
+--checkpoint_path ./check_point/fiddle_tcn_orbitrap_ab_res_p1.pt \
+--result_path ./result/fiddle_tcn_orbitrap_ab_res_p1.csv --device 4 5 > fiddle_tcn_orbitrap_ab_res_p1.out &
+
+# -------------------------------
+# Ablation Study of Instrument Types
+# -------------------------------
+python prepare_msms_ablation_ins.py \
+--pkl_dir ./data/ablation_ins/ \
+--train_ratio 0.9 \
+--config_qtof_path ./config/fiddle_tcn_qtof.yml \
+--config_orbitrap_path ./config/fiddle_tcn_orbitrap.yml \
+--random_seed 42
+
+# QTOF (ab_ins)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation_ins/ablation_qtof_train.pkl \
+--test_data ./data/ablation_ins/ablation_qtof_test.pkl \
+--config_path ./config/fiddle_tcn_qtof.yml \
+--checkpoint_path ./check_point/fiddle_tcn_qtof_ab_ins.pt \
+--result_path ./result/fiddle_tcn_qtof_ab_ins.csv --device 4 5 > fiddle_tcn_qtof_ab_ins.out &
+
+# Orbitrap (ab_ins)
+nohup python -u train_tcn_gpus_cl.py \
+--train_data ./data/ablation_ins/ablation_orbitrap_train.pkl \
+--test_data ./data/ablation_ins/ablation_orbitrap_test.pkl \
+--config_path ./config/fiddle_tcn_orbitrap.yml \
+--checkpoint_path ./check_point/fiddle_tcn_orbitrap_ab_ins.pt \
+--result_path ./result/fiddle_tcn_orbitrap_ab_ins.csv --device 4 5 > fiddle_tcn_orbitrap_ab_ins.out &
+
+# Cross instrument test
 python -u train_tcn_gpus_cl.py \
---train_data ./data/demo_cl_pkl/qtof_random_train.pkl \
---test_data ./data/demo_cl_pkl/qtof_random_test.pkl \
---config_path ./config/fiddle_tcn_demo_wo_da.yml \
---checkpoint_path ./check_point/fiddle_tcn_demo_qtof_cl_wo_da.pt \
---result_path ./result/fiddle_tcn_demo_qtof_cl_wo_da.csv --device 6 7 
-
-# with contrastive learning and data augmentation
+--train_data ./data/ablation_ins/ablation_qtof_train.pkl \
+--test_data ./data/ablation_ins/ablation_qtof_test.pkl \
+--config_path ./config/fiddle_tcn_orbitrap_testonly.yml \
+--resume_path ./check_point/fiddle_tcn_orbitrap_ab_ins.pt \
+--checkpoint_path ./check_point/fiddle_tcn_orbitrap_ab_ins.pt \
+--result_path ./result/fiddle_tcn_orbitrap_ab_crossins.csv --device 4 5
 python -u train_tcn_gpus_cl.py \
---train_data ./data/demo_cl_pkl/qtof_random_train.pkl \
---test_data ./data/demo_cl_pkl/qtof_random_test.pkl \
---config_path ./config/fiddle_tcn_demo.yml \
---checkpoint_path ./check_point/fiddle_tcn_demo_qtof_cl.pt \
---result_path ./result/fiddle_tcn_demo_qtof_cl.csv --device 6 7 
-
-# FIDDLES (fdr model)
-python prepare_fdr.py \
---train_data ./data/demo_cl_pkl/qtof_random_train.pkl \
---test_data ./data/demo_cl_pkl/qtof_random_test.pkl \
---config_path ./config/fiddle_tcn_qtof.yml \
---resume_path ./check_point/fiddle_tcn_demo_qtof_cl.pt \
---fdr_dir ./data/demo_cl_pkl/ \
---device 6 7
-python train_fdr.py --train_data ./data/demo_cl_pkl/qtof_random_fdr_train.pkl \
---test_data ./data/demo_cl_pkl/qtof_random_fdr_test.pkl \
---config_path ./config/fiddle_tcn_qtof.yml \
---resume_path ./check_point/fiddle_tcn_demo_qtof_cl.pt \
---transfer \
---checkpoint_path ./check_point/fiddle_fdr_demo_qtof_cl.pt \
---device 6 7 
-
-# FIDDLES (test)
-python run_fiddle.py --test_data ./data/demo_cl_pkl/qtof_random_test.mgf \
---config_path ./config/fiddle_tcn_qtof.yml \
---resume_path ./check_point/fiddle_tcn_demo_qtof_cl.pt \
---fdr_resume_path ./check_point/fiddle_fdr_demo_qtof_cl.pt \
---result_path ./result/fiddle_demo_qtof_cl.csv --device 6 7
+--train_data ./data/ablation_ins/ablation_orbitrap_train.pkl \
+--test_data ./data/ablation_ins/ablation_orbitrap_test.pkl \
+--config_path ./config/fiddle_tcn_qtof_testonly.yml \
+--resume_path ./check_point/fiddle_tcn_qtof_ab_ins.pt \
+--checkpoint_path ./check_point/fiddle_tcn_qtof_ab_ins.pt \
+--result_path ./result/fiddle_tcn_qtof_ab_crossins.csv --device 4 5
