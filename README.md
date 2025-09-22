@@ -1,6 +1,6 @@
 # FIDDLE
 
-[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa] (free for academic use) 
+[![DOI](https://zenodo.org/badge/720138825.svg)](https://doi.org/10.5281/zenodo.17172711) [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa] (free for academic use) 
 
 **F**ormula **ID**entification from tandem mass spectra by **D**eep **LE**arning
 
